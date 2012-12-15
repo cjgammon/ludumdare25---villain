@@ -3,13 +3,15 @@ require.config({
   },
 
   paths: {
+    signals: 'vendor/signals.min',
     hm: 'vendor/hm',
     esprima: 'vendor/esprima',
     jquery: 'vendor/jquery.min'
   }
 });
  
-require(['app'], function(app) {
-  // use app here
-  console.log(app);
+require(['app', 'signals'], 
+        function(app, signals) {
+
+    app.init();
 });
