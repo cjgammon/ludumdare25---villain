@@ -6,6 +6,7 @@ define(['game/AssetLoader',
         instance,
         animation,
         ducking,
+        shooting = false,
         jumping = false,
         _FRICTION = 0.96,
         _WALK_SPEED = 4,
@@ -23,6 +24,10 @@ define(['game/AssetLoader',
         function fireball() {
             animation.gotoAndPlay('fire');
             UserEvent.FIREBALL.dispatch();
+            shooting = true;
+            setTimeout(function () {
+                shooting = false;
+            }, 1000);
         }
 
         function duck() {
@@ -126,11 +131,12 @@ define(['game/AssetLoader',
                 }
                 break;
             case 32: //fire
-                if (!ducking && onFloor()) {
+                if (!ducking && onFloor() && !shooting) {
                     fireball();
                 }
                 break;
             }
+
         }
 
         /**
