@@ -14,6 +14,8 @@ define([], function() {
         instance.manifest = [
             {id: "Enemy", src: "images/enemy.png"},
             //{id: "Hero", src: "images/hero.png"},
+            {id: "Window", src: "images/window.png"},
+            {id: "Fireball", src: "images/fireball.png"},
             {id: "GroundTile", src: "images/groundTile.png"}
         ];
         
