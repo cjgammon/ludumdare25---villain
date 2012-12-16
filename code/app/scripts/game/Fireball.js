@@ -2,7 +2,10 @@ define(['game/AssetLoader',
         'game/events/UserEvent'], 
         function(AssetLoader, UserEvent) {
 
-    var Fireball = function (direction) {
+    var Fireball,
+        _FIREBALL_SPEED = 4;
+
+    Fireball = function (direction) {
         var instance = this,
             dir = direction;
  
@@ -19,8 +22,9 @@ define(['game/AssetLoader',
         }
 
         instance.update = function () {
-            instance.x += dir * 2;
+            instance.x += dir * _FIREBALL_SPEED;
         }
+
     }
 
     Fireball.prototype = new Container();

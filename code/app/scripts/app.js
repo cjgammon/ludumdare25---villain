@@ -15,7 +15,8 @@ define(['game/Background',
         canvas,
         stage,
         bg,
-        enemy;
+        enemy,
+        fireballs = [];
 
     var App = function () {
         instance = this;
@@ -48,7 +49,15 @@ define(['game/Background',
         },
 
         tick: function () {
+            var i = 0;
+
             stage.update();
+
+            for (i; i < fireballs.length; i += 1) {
+                if (fireballs[i].x + fireballs[i].width < 0) {
+                    fireballs[i].remove();
+                }
+            }
         },
 
         handle_KEY_DOWN: function (e) {
@@ -70,6 +79,8 @@ define(['game/Background',
             fireball.y = enemy.y + 20;
             fireball.init();
             stage.addChild(fireball);
+
+            fireballs.push(fireball);
         }
     }
 
