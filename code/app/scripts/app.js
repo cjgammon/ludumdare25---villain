@@ -1,11 +1,13 @@
 define(['game/Background', 
         'game/Enemy',
+        'game/Hero',
         'game/Fireball',
         'game/events/UserEvent',
         'game/AssetLoader'], 
         function(
             Background, 
             Enemy,
+            Hero,
             Fireball,
             UserEvent,
             AssetLoader) {
@@ -44,6 +46,9 @@ define(['game/Background',
             enemy = new Enemy();
             stage.addChild(enemy);
             
+            hero = new Hero();
+            stage.addChild(hero);
+
             Ticker.setFPS(60);
 		    Ticker.addListener(instance.tick);
         },
@@ -54,8 +59,8 @@ define(['game/Background',
             stage.update();
 
             for (i; i < fireballs.length; i += 1) {
-                if (fireballs[i].x + fireballs[i].width < 0) {
-                    fireballs[i].remove();
+                if (fireballs[i].x + 100 < 0 || fireballs[i].x - 100 > stage.canvas.width) {
+                    stage.removeChild(fireballs[i]);
                 }
             }
         },

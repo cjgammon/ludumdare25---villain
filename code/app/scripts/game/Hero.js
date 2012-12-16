@@ -2,7 +2,7 @@ define(['game/AssetLoader',
         'game/events/UserEvent'], 
         function(AssetLoader, UserEvent) {
 
-    var Enemy,
+    var Hero,
         instance,
         animation,
         ducking,
@@ -11,28 +11,18 @@ define(['game/AssetLoader',
         _FRICTION = 0.96,
         _WALK_SPEED = 4,
         _SHELL_SPEED = 8,
-        _WIDTH = 50,
-        _HEIGHT = 54,
-        _FLOOR_Y = 360,
+        _WIDTH = 36,
+        _HEIGHT = 42,
+        _FLOOR_Y = 367,
         _GRAVITY = -10,
         vx = 0,
         vy = 0;
 
-    var Enemy = function () {
+    var Hero = function () {
         instance = this;
-
-        function fireball() {
-            animation.gotoAndPlay('fire');
-            UserEvent.FIREBALL.dispatch();
-            shooting = true;
-            setTimeout(function () {
-                shooting = false;
-            }, 1000);
-        }
-
+      
         function duck() {
             ducking = true;
-            //vx = 0;
             animation.gotoAndPlay('duck');
         }
 
@@ -60,20 +50,25 @@ define(['game/AssetLoader',
                 image,
                 data;
             
-            image = AssetLoader.assetloader.getResult("Enemy").result;
+            image = AssetLoader.assetloader.getResult("Hero").result;
             data = {
                 images: [image], 
                 frames: {width: _WIDTH, height: _HEIGHT, regX: 0, regY: 0}, 
                 animations: {    
                     stop: [0],
-                    die: [6, 10, 'stop', 10],
+                    walk: {
+                        frames: [0, 3, 4],
+                        next: "walk", 
+                        frequency: 10
+                    },
                     fire: [0, 1, "stop", 10],
                     duck: [3, 5, "duck", 10],
                     jump: {
                         frames: [2, 10, 10, 10, 10, 2], 
                         next: "stop", 
                         frequency: 10
-                    }
+                    },
+                    die: [6, 10, 'stop', 10]
                 }
             };
 
@@ -83,11 +78,11 @@ define(['game/AssetLoader',
 
             spriteSheet = new SpriteSheet(data);
             animation = new BitmapAnimation(spriteSheet);
-            animation.gotoAndStop('stop');
+            animation.gotoAndPlay('walk');
             instance.addChild(animation);
 
-            UserEvent.KEY_DOWN.add(instance.handle_KEY_DOWN);
-            UserEvent.KEY_UP.add(instance.handle_KEY_UP);
+            //UserEvent.KEY_DOWN.add(instance.handle_KEY_DOWN);
+            //UserEvent.KEY_UP.add(instance.handle_KEY_UP);
 		    Ticker.addListener(instance.update);
         }
 
@@ -139,7 +134,6 @@ define(['game/AssetLoader',
                 }
                 break;
             }
-
         }
 
         /**
@@ -160,7 +154,7 @@ define(['game/AssetLoader',
         instance.init();
     }
 
-    Enemy.prototype = new Container();
+    Hero.prototype = new Container();
 
-    return Enemy;
+    return Hero;
 });
