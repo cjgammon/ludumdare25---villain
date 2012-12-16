@@ -167,6 +167,10 @@ define(['game/AssetLoader',
             return !onFloor();
         }
 
+        instance.getDucking = function () {
+            return ducking;
+        }
+
         instance.init();
     }
 

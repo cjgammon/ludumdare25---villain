@@ -25,6 +25,10 @@ define(['game/AssetLoader',
             instance.x += dir * _FIREBALL_SPEED;
         }
 
+        instance.getDirection = function () {
+            return dir;
+        }
+
     }
 
     Fireball.prototype = new Container();

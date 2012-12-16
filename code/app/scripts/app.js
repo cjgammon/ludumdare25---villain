@@ -53,7 +53,7 @@ define(['game/Background',
             hero = new Hero();
             stage.addChild(hero);
 
-            ai = new AI(hero, enemy);
+            ai = new AI(hero, enemy, instance);
             setTimeout(function () {
                 ai.start();
             }, 1000);
@@ -70,6 +70,7 @@ define(['game/Background',
             for (i; i < fireballs.length; i += 1) {
                 if (fireballs[i].x + 100 < 0 || fireballs[i].x - 100 > stage.canvas.width) {
                     stage.removeChild(fireballs[i]);
+                    fireballs.splice(i, 1);
                 }
             }
         },
@@ -95,6 +96,14 @@ define(['game/Background',
             stage.addChild(fireball);
 
             fireballs.push(fireball);
+        },
+        
+        /**
+         * GETTERS
+         */
+
+        getFireballs: function () {
+            return fireballs;
         }
     }
 

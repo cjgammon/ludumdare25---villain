@@ -64,7 +64,7 @@ define(['game/AssetLoader',
                     fire: [0, 1, "stop", 10],
                     duck: [3, 5, "duck", 10],
                     jump: {
-                        frames: [2, 10, 10, 10, 10, 2], 
+                        frames: [3, 5, 5, 6, 5, 3], 
                         next: "stop", 
                         frequency: 10
                     },
@@ -89,10 +89,6 @@ define(['game/AssetLoader',
             vy += _GRAVITY;
             instance.x += vx;
 
-            if (Math.abs(vx) < 1) {
-                instance.wait();
-            }
-
             if (jumping) {
                 if (instance.y < _FLOOR_Y - 50) {
                     jumping = false;
@@ -100,6 +96,9 @@ define(['game/AssetLoader',
                     instance.y -= 5;
                 }
             } else {
+                if (Math.abs(vx) < 1) {
+                    instance.wait();
+                }
                 instance.y = instance.y < _FLOOR_Y ? instance.y -= _GRAVITY * .2 : _FLOOR_Y;
             }
         }
