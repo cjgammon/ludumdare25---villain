@@ -153,8 +153,18 @@ define(['game/AssetLoader',
             }
         }
 
+        /**
+         *
+         * GETTERS
+         *
+         **/
+
         instance.getDirection = function () {
             return animation.scaleX;
+        }
+
+        instance.getJumping = function () {
+            return !onFloor();
         }
 
         instance.init();
