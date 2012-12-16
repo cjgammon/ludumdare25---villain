@@ -1,6 +1,7 @@
 define(['game/Background', 
         'game/Enemy',
         'game/Hero',
+        'game/HeroAI',
         'game/Fireball',
         'game/events/UserEvent',
         'game/AssetLoader'], 
@@ -8,6 +9,7 @@ define(['game/Background',
             Background, 
             Enemy,
             Hero,
+            AI,
             Fireball,
             UserEvent,
             AssetLoader) {
@@ -17,6 +19,8 @@ define(['game/Background',
         canvas,
         stage,
         bg,
+        ai,
+        hero,
         enemy,
         fireballs = [];
 
@@ -48,6 +52,11 @@ define(['game/Background',
             
             hero = new Hero();
             stage.addChild(hero);
+
+            ai = new AI(hero, enemy);
+            setTimeout(function () {
+                ai.start();
+            }, 1000);
 
             Ticker.setFPS(60);
 		    Ticker.addListener(instance.tick);

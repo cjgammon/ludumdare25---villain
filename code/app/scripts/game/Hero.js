@@ -73,16 +73,14 @@ define(['game/AssetLoader',
             };
 
             instance.y = _FLOOR_Y;
-            instance.x = 500;
+            instance.x = -100;
             instance.scaleX = 1;
 
             spriteSheet = new SpriteSheet(data);
             animation = new BitmapAnimation(spriteSheet);
-            animation.gotoAndPlay('walk');
+            animation.gotoAndStop('stop');
             instance.addChild(animation);
 
-            //UserEvent.KEY_DOWN.add(instance.handle_KEY_DOWN);
-            //UserEvent.KEY_UP.add(instance.handle_KEY_UP);
 		    Ticker.addListener(instance.update);
         }
 
@@ -90,6 +88,10 @@ define(['game/AssetLoader',
             vx *= _FRICTION;
             vy += _GRAVITY;
             instance.x += vx;
+
+            if (Math.abs(vx) < 1) {
+                instance.wait();
+            }
 
             if (jumping) {
                 if (instance.y < _FLOOR_Y - 50) {
@@ -102,9 +104,46 @@ define(['game/AssetLoader',
             }
         }
 
+        instance.wait = function () {
+            vx = 0;
+            animation.gotoAndStop('stop');
+        }
+
+        instance.unduck = function () {
+            unduck();
+        }
+
+        instance.duck = function () {
+            if (!ducking && onFloor()) {
+                duck();
+            }
+        }
+
+        instance.jump = function () {
+            if (onFloor()) {
+                animation.gotoAndPlay('jump');
+                jumping = true;
+            }
+        }
+
+        instance.moveRight = function () {
+            vx = ducking ? _SHELL_SPEED : _WALK_SPEED;
+            animation.scaleX = 1;
+            animation.x = 0;
+            animation.gotoAndPlay('walk');
+        }
+
+        instance.moveLeft = function () {
+            vx = ducking ? -_SHELL_SPEED : -_WALK_SPEED;
+            animation.scaleX = -1;
+            animation.x = _WIDTH;
+            animation.gotoAndPlay('walk');
+        }
+
         /**
          * handle keydown input
          */
+        /*
         instance.handle_KEY_DOWN = function (e) {
             switch(e.keyCode) {
             case 37: //left
@@ -135,10 +174,12 @@ define(['game/AssetLoader',
                 break;
             }
         }
+        */
 
         /**
          * key up event
          */
+        /*
         instance.handle_KEY_UP = function (e) {
             switch(e.keyCode) {
             case 40:
@@ -146,6 +187,7 @@ define(['game/AssetLoader',
                 break;
             }
         }
+        */
 
         instance.getDirection = function () {
             return animation.scaleX;
