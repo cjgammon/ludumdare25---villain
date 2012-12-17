@@ -20,7 +20,7 @@ define(['game/AssetLoader'],
                 GroundTileBMD = AssetLoader.assetloader.getResult("GroundTile").src;
                 WindowBMD = AssetLoader.assetloader.getResult("Window").src;
 
-            for (i = 0; i < 25; i += 1) {
+            for (i = 0; i < 30; i += 1) {
                 groundTile = new Bitmap(GroundTileBMD);
                 groundTile.x = i * 30;
                 ground.addChild(groundTile);

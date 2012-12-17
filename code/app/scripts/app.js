@@ -3,6 +3,7 @@ define(['game/Background',
         'game/Hero',
         'game/HeroAI',
         'game/Fireball',
+        'game/UI',
         'game/events/UserEvent',
         'game/screens/TitleScreen',
         'game/AssetLoader'], 
@@ -12,6 +13,7 @@ define(['game/Background',
             Hero,
             AI,
             Fireball,
+            UI,
             UserEvent,
             TitleScreen,
             AssetLoader) {
@@ -22,11 +24,12 @@ define(['game/Background',
         stage,
         bg,
         ai,
+        ui,
         hero,
         enemy,
         state,
         HERO_TIMEOUT,
-        WAIT_FOR_HERO = 30000,
+        WAIT_FOR_HERO = 60000,
         titleScreen,
         fireballs = [];
 
@@ -74,6 +77,9 @@ define(['game/Background',
 
             enemy = new Enemy();
             stage.addChild(enemy);
+
+            ui = new UI();
+            stage.addChild(ui);
             
             HERO_TIMEOUT = setTimeout(instance.startGame, WAIT_FOR_HERO);
 
@@ -86,6 +92,8 @@ define(['game/Background',
 
             ai = new AI(hero, enemy, instance);
             ai.start();
+
+            ui.trackingScore = false;
         },
 
         tick: function () {
