@@ -12,10 +12,12 @@ define([], function() {
 
         instance.assetloader = new PreloadJS();
         instance.manifest = [
+            {id: "ScreenTitle", src: "images/screenTitle.png"},
             {id: "Enemy", src: "images/enemy.png"},
             {id: "Hero", src: "images/hero.png"},
             {id: "Window", src: "images/window.png"},
             {id: "Bricks", src: "images/bricks.png"},
+            {id: "DarkBricks", src: "images/darkbricks.png"},
             {id: "Fireball", src: "images/fireball.png"},
             {id: "GroundTile", src: "images/groundTile.png"}
         ];

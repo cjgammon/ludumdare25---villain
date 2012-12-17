@@ -16,6 +16,7 @@ define(['game/AssetLoader'],
             var i,
                 g, s,
                 BrickBMD = AssetLoader.assetloader.getResult("Bricks").src;
+                DarkBrickBMD = AssetLoader.assetloader.getResult("DarkBricks").src;
                 GroundTileBMD = AssetLoader.assetloader.getResult("GroundTile").src;
                 WindowBMD = AssetLoader.assetloader.getResult("Window").src;
 
@@ -37,6 +38,13 @@ define(['game/AssetLoader'],
             g.drawRect(0, 0, 1000, 500);
             s = new Shape(g);
             instance.addChild(s);
+
+            for (i = 0; i < 4; i += 1) {
+                dark = new Bitmap(DarkBrickBMD);
+                dark.x = 130 + i * 150;
+                dark.y = 280;
+                instance.addChild(dark);
+            }
 
             for (i = 0; i < 2; i += 1) {
                 brick = new Bitmap(BrickBMD);

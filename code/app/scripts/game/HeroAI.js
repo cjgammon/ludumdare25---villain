@@ -72,7 +72,7 @@ define([],
         }
 
         instance.init = function () {
-		    Ticker.addListener(instance.update);
+
         }
 
         instance.update = function () {
@@ -81,7 +81,8 @@ define([],
         }
 
         instance.start = function () {
-            goalX = enemy.x - 200;
+		    Ticker.addListener(instance.update);
+            //goalX = enemy.x - 200;
         }
 
         instance.init();

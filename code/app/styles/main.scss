@@ -1,5 +1,9 @@
 @import "compass_twitter_bootstrap";
 
+html{
+    overflow: hidden;
+}
+
 body {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -9,6 +13,7 @@ body {
     user-select: none;
     background: #111;
     text-align: center;
+    overflow: hidden;
 }
 
 #stage{
