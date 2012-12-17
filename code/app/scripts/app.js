@@ -1,13 +1,21 @@
 define(['game/Background', 
         'game/Enemy',
+        'game/Hero',
+        'game/HeroAI',
         'game/Fireball',
+        'game/UI',
         'game/events/UserEvent',
+        'game/screens/TitleScreen',
         'game/AssetLoader'], 
         function(
             Background, 
             Enemy,
+            Hero,
+            AI,
             Fireball,
+            UI,
             UserEvent,
+            TitleScreen,
             AssetLoader) {
 
     var App,
@@ -15,7 +23,14 @@ define(['game/Background',
         canvas,
         stage,
         bg,
+        ai,
+        ui,
+        hero,
         enemy,
+        state,
+        HERO_TIMEOUT,
+        WAIT_FOR_HERO = 60000,
+        titleScreen,
         fireballs = [];
 
     var App = function () {
@@ -24,8 +39,7 @@ define(['game/Background',
 
     App.prototype = {
         init: function() {
-            console.log(AssetLoader);
-            AssetLoader.load(instance.setup);
+            AssetLoader.load(instance.setupTitle);
                   
 		    canvas = document.getElementById("stage");
             stage = new Stage(canvas); 
@@ -33,35 +47,76 @@ define(['game/Background',
             $(document).bind('keydown', instance.handle_KEY_DOWN);
             $(document).bind('keyup', instance.handle_KEY_UP);
 
-            UserEvent.FIREBALL.add(instance.handle_FIREBALL);
+            Ticker.setFPS(60);
+		    Ticker.addListener(instance.tick);
         },
 
-        setup: function () {
+        /**
+         * TITLE
+         */
+        setupTitle: function () {
+            state = 'title';
 
+            titleScreen = new TitleScreen();
+            stage.addChild(titleScreen);
+        },
+
+        destroyTitle: function () {
+            instance.setupGame();
+            stage.removeChild(titleScreen);
+        },
+
+        /**
+         * GAME METHODS
+         */
+        setupGame: function () {
+            state = 'game';
+            
             bg = new Background();
             stage.addChild(bg);
 
             enemy = new Enemy();
             stage.addChild(enemy);
+
+            ui = new UI();
+            stage.addChild(ui);
             
-            Ticker.setFPS(60);
-		    Ticker.addListener(instance.tick);
+            HERO_TIMEOUT = setTimeout(instance.startGame, WAIT_FOR_HERO);
+
+            UserEvent.FIREBALL.add(instance.handle_FIREBALL);
+        },
+
+        startGame: function () {
+            hero = new Hero();
+            stage.addChild(hero);
+
+            ai = new AI(hero, enemy, instance);
+            ai.start();
+
+            ui.trackingScore = false;
         },
 
         tick: function () {
-            var i = 0;
-
             stage.update();
+            instance.updateFireballs();
+        },
 
+        updateFireballs: function () {
+            var i = 0;
+            
             for (i; i < fireballs.length; i += 1) {
-                if (fireballs[i].x + fireballs[i].width < 0) {
-                    fireballs[i].remove();
+                if (fireballs[i].x + 100 < 0 || fireballs[i].x - 100 > stage.canvas.width) {
+                    stage.removeChild(fireballs[i]);
+                    fireballs.splice(i, 1);
                 }
             }
         },
 
         handle_KEY_DOWN: function (e) {
             //console.log(e.keyCode);
+            if (state == 'title') {
+                instance.destroyTitle();
+            }
             UserEvent.KEY_DOWN.dispatch(e);
         },
 
@@ -81,6 +136,14 @@ define(['game/Background',
             stage.addChild(fireball);
 
             fireballs.push(fireball);
+        },
+        
+        /**
+         * GETTERS
+         */
+
+        getFireballs: function () {
+            return fireballs;
         }
     }
 

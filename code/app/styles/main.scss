@@ -1,5 +1,11 @@
 @import "compass_twitter_bootstrap";
 
+@font-face { font-family: 'commodore'; src: url('../fonts/Commodore.ttf'); }
+
+html{
+    overflow: hidden;
+}
+
 body {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -7,8 +13,9 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background: red;
+    background: #111;
     text-align: center;
+    overflow: hidden;
 }
 
 #stage{

@@ -2,7 +2,7 @@ define(['game/AssetLoader',
         'game/events/UserEvent'], 
         function(AssetLoader, UserEvent) {
 
-    var Enemy,
+    var Hero,
         instance,
         animation,
         ducking,
@@ -11,28 +11,18 @@ define(['game/AssetLoader',
         _FRICTION = 0.96,
         _WALK_SPEED = 4,
         _SHELL_SPEED = 8,
-        _WIDTH = 50,
-        _HEIGHT = 54,
-        _FLOOR_Y = 360,
+        _WIDTH = 36,
+        _HEIGHT = 42,
+        _FLOOR_Y = 367,
         _GRAVITY = -10,
         vx = 0,
         vy = 0;
 
-    var Enemy = function () {
+    var Hero = function () {
         instance = this;
-
-        function fireball() {
-            animation.gotoAndPlay('fire');
-            UserEvent.FIREBALL.dispatch();
-            shooting = true;
-            setTimeout(function () {
-                shooting = false;
-            }, 1000);
-        }
-
+      
         function duck() {
             ducking = true;
-            //vx = 0;
             animation.gotoAndPlay('duck');
         }
 
@@ -60,25 +50,30 @@ define(['game/AssetLoader',
                 image,
                 data;
             
-            image = AssetLoader.assetloader.getResult("Enemy").result;
+            image = AssetLoader.assetloader.getResult("Hero").result;
             data = {
                 images: [image], 
                 frames: {width: _WIDTH, height: _HEIGHT, regX: 0, regY: 0}, 
                 animations: {    
                     stop: [0],
-                    die: [6, 10, 'stop', 10],
+                    walk: {
+                        frames: [0, 3, 4],
+                        next: "walk", 
+                        frequency: 10
+                    },
                     fire: [0, 1, "stop", 10],
                     duck: [3, 5, "duck", 10],
                     jump: {
-                        frames: [2, 10, 10, 10, 10, 2], 
+                        frames: [3, 5, 5, 6, 5, 3], 
                         next: "stop", 
                         frequency: 10
-                    }
+                    },
+                    die: [6, 10, 'stop', 10]
                 }
             };
 
             instance.y = _FLOOR_Y;
-            instance.x = 500;
+            instance.x = -100;
             instance.scaleX = 1;
 
             spriteSheet = new SpriteSheet(data);
@@ -86,8 +81,6 @@ define(['game/AssetLoader',
             animation.gotoAndStop('stop');
             instance.addChild(animation);
 
-            UserEvent.KEY_DOWN.add(instance.handle_KEY_DOWN);
-            UserEvent.KEY_UP.add(instance.handle_KEY_UP);
 		    Ticker.addListener(instance.update);
         }
 
@@ -103,13 +96,53 @@ define(['game/AssetLoader',
                     instance.y -= 5;
                 }
             } else {
+                if (Math.abs(vx) < 1) {
+                    instance.wait();
+                }
                 instance.y = instance.y < _FLOOR_Y ? instance.y -= _GRAVITY * .2 : _FLOOR_Y;
             }
+        }
+
+        instance.wait = function () {
+            vx = 0;
+            animation.gotoAndStop('stop');
+        }
+
+        instance.unduck = function () {
+            unduck();
+        }
+
+        instance.duck = function () {
+            if (!ducking && onFloor()) {
+                duck();
+            }
+        }
+
+        instance.jump = function () {
+            if (onFloor()) {
+                animation.gotoAndPlay('jump');
+                jumping = true;
+            }
+        }
+
+        instance.moveRight = function () {
+            vx = ducking ? _SHELL_SPEED : _WALK_SPEED;
+            animation.scaleX = 1;
+            animation.x = 0;
+            animation.gotoAndPlay('walk');
+        }
+
+        instance.moveLeft = function () {
+            vx = ducking ? -_SHELL_SPEED : -_WALK_SPEED;
+            animation.scaleX = -1;
+            animation.x = _WIDTH;
+            animation.gotoAndPlay('walk');
         }
 
         /**
          * handle keydown input
          */
+        /*
         instance.handle_KEY_DOWN = function (e) {
             switch(e.keyCode) {
             case 37: //left
@@ -139,12 +172,13 @@ define(['game/AssetLoader',
                 }
                 break;
             }
-
         }
+        */
 
         /**
          * key up event
          */
+        /*
         instance.handle_KEY_UP = function (e) {
             switch(e.keyCode) {
             case 40:
@@ -152,29 +186,16 @@ define(['game/AssetLoader',
                 break;
             }
         }
-
-        /**
-         *
-         * GETTERS
-         *
-         **/
+        */
 
         instance.getDirection = function () {
             return animation.scaleX;
         }
 
-        instance.getJumping = function () {
-            return !onFloor();
-        }
-
-        instance.getDucking = function () {
-            return ducking;
-        }
-
         instance.init();
     }
 
-    Enemy.prototype = new Container();
+    Hero.prototype = new Container();
 
-    return Enemy;
+    return Hero;
 });
