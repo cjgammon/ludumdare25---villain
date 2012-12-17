@@ -1,0 +1,54 @@
+ReferenceError: Can't find variable: HTMLAudioElement
+
+  http://code.createjs.com/preloadjs-0.2.0.min.js:27
+  http://code.createjs.com/preloadjs-0.2.0.min.js:19
+  http://code.createjs.com/preloadjs-0.2.0.min.js:19
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+  http://localhost:3501/scripts/ffa52a74.amd-app.js:1
+CACHE MANIFEST
+
+# Time: Sun Dec 16 2012 17:35:13 GMT-0800 (PST)
+# This manifest was created by confess.js, http://github.com/jamesgpearce/confess
+#
+# Retrieved URL: http://localhost:3501/
+# User-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11
+#
+# Config:
+#  task: appcache
+#  userAgent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11
+#  wait: 0
+#  consolePrefix: #
+#  verbose: true
+#  appcache:
+#   urlsFromDocument: true
+#   urlsFromRequests: false
+#   cacheFilter: .*
+#   networkFilter: null
+#  url: http://localhost:3501
+#  configFile: /usr/local/lib/node_modules/yeoman/lib/support/confess.json
+
+CACHE:
+http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js
+http://code.createjs.com/easeljs-0.5.0.min.js
+http://code.createjs.com/movieclip-0.5.0.min.js
+http://code.createjs.com/preloadjs-0.2.0.min.js
+http://code.createjs.com/soundjs-0.3.0.min.js
+http://code.createjs.com/tweenjs-0.3.0.min.js
+http://localhost:3501/app/images/glyphicons-halflings-white.png?1355556893
+http://localhost:3501/app/images/glyphicons-halflings.png?1355556893
+scripts/ffa52a74.amd-app.js
+scripts/vendor/cf69c6f2.modernizr.min.js
+scripts/vendor/e4bb8403.signals.min.js
+styles/9127f478.main.css
+
+NETWORK:
+*
