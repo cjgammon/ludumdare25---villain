@@ -42,7 +42,7 @@ define(['game/AssetLoader'],
             instance.addChild(time);
 
             points = new Text('0', '16px commodore', 'white');
-            points.textAlign = "left";
+            points.textAlign = "right";
             points.x = 700;
             points.y = 10;
             instance.addChild(points);
@@ -56,7 +56,7 @@ define(['game/AssetLoader'],
 
             if (instance.trackingScore && counter % 5 === 0) {
                 score += Math.round(Math.random() * 30);
-                points.text = score;
+                points.text = score + '0';
             }
         }
 

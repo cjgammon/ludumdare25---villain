@@ -28,6 +28,7 @@ define(['game/Background',
         hero,
         enemy,
         state,
+        BG_LOOP,
         HERO_TIMEOUT,
         WAIT_FOR_HERO = 60000,
         titleScreen,
@@ -71,7 +72,8 @@ define(['game/Background',
          */
         setupGame: function () {
             state = 'game';
-            
+            BG_LOOP = SoundJS.play('Loop', SoundJS.INTERRUPT_NONE, 0, 0, -1, 1);
+
             bg = new Background();
             stage.addChild(bg);
 
@@ -136,6 +138,8 @@ define(['game/Background',
             stage.addChild(fireball);
 
             fireballs.push(fireball);
+            
+            SoundJS.play('FireballSFX', SoundJS.INTERRUPT_ANY, 0, 0, 0, 0.5); 
         },
         
         /**

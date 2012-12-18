@@ -99,7 +99,7 @@ define(['game/AssetLoader',
                 if (Math.abs(vx) < 1) {
                     instance.wait();
                 }
-                instance.y = instance.y < _FLOOR_Y ? instance.y -= _GRAVITY * .2 : _FLOOR_Y;
+                instance.y = instance.y < _FLOOR_Y ? instance.y -= _GRAVITY * 0.2 : _FLOOR_Y;
             }
         }
 
@@ -120,6 +120,7 @@ define(['game/AssetLoader',
 
         instance.jump = function () {
             if (onFloor()) {
+                SoundJS.play('JumpSFX', SoundJS.INTERRUPT_ANY, 0, 0, 0, 0.5); 
                 animation.gotoAndPlay('jump');
                 jumping = true;
             }

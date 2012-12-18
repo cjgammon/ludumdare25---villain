@@ -8,6 +8,8 @@ define(['game/AssetLoader',
         ducking,
         shooting = false,
         jumping = false,
+        comment,
+        currentComment = 0,
         _FRICTION = 0.96,
         _WALK_SPEED = 4,
         _SHELL_SPEED = 8,
@@ -15,10 +17,15 @@ define(['game/AssetLoader',
         _HEIGHT = 54,
         _FLOOR_Y = 360,
         _GRAVITY = -10,
+        _COMMENTARY = [
+            'oh well, just another lonely day..',
+            'this castle is pretty boring.',
+            'i wonder if any heroes will show up?'
+        ],
         vx = 0,
         vy = 0;
 
-    var Enemy = function () {
+    Enemy = function () {
         instance = this;
 
         function fireball() {
@@ -36,19 +43,46 @@ define(['game/AssetLoader',
             animation.gotoAndPlay('duck');
         }
 
+        function onFloor() {
+            return instance.y == _FLOOR_Y;
+        }
+
         function unduck() {
             ducking = false;
             animation.gotoAndStop('stop');
 
             if (onFloor()) {
+                SoundJS.play('JumpSFX', SoundJS.INTERRUPT_ANY, 0, 0, 0, 0.5); 
                 jumping = true;
                 animation.gotoAndPlay('jump');
                 vx = vx > 0 ? -2 : 2;
             }
         }
 
-        function onFloor() {
-            return instance.y == _FLOOR_Y;
+        function hideComment() {
+            comment.alpha = 0;
+            setTimeout(newComment, 1000 + Math.random() * 3000);
+        }
+
+        function newComment() {
+            currentComment += 1;
+
+            if (currentComment < _COMMENTARY.length) {
+                comment.text = _COMMENTARY[currentComment];
+                comment.alpha = 1;
+                setTimeout(hideComment, 3000);
+            }
+        }
+
+        function addComment() {
+            comment = new Text(_COMMENTARY[currentComment], '16px commodore', 'white');
+            comment.lineWidth = 300;
+            comment.textAlign = "center";
+            comment.x = 0;
+            comment.y = -50;
+            instance.addChild(comment);
+
+            setTimeout(hideComment, 3000);
         }
 
         /**
@@ -85,6 +119,8 @@ define(['game/AssetLoader',
             animation = new BitmapAnimation(spriteSheet);
             animation.gotoAndStop('stop');
             instance.addChild(animation);
+
+            setTimeout(addComment, 2000);
 
             UserEvent.KEY_DOWN.add(instance.handle_KEY_DOWN);
             UserEvent.KEY_UP.add(instance.handle_KEY_UP);
@@ -124,6 +160,7 @@ define(['game/AssetLoader',
                 break;
             case 38: //jump
                 if (onFloor()) {
+                    SoundJS.play('JumpSFX', SoundJS.INTERRUPT_ANY, 0, 0, 0, 0.5); 
                     animation.gotoAndPlay('jump');
                     jumping = true;
                 }

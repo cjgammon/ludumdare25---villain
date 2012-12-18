@@ -19,7 +19,10 @@ define([], function() {
             {id: "Bricks", src: "images/bricks.png"},
             {id: "DarkBricks", src: "images/darkbricks.png"},
             {id: "Fireball", src: "images/fireball.png"},
-            {id: "GroundTile", src: "images/groundTile.png"}
+            {id: "GroundTile", src: "images/groundTile.png"},
+            {id: "FireballSFX", src: "audio/Fireball.mp3", type: "sound"},
+            {id: "Loop", src: "audio/loop.mp3|audio/loop.ogg", type: "sound"},
+            {id: "JumpSFX", src: "audio/Jump1.mp3", type: "sound"}
         ];
         
         instance.load = function (callback) {
